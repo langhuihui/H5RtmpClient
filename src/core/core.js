@@ -181,18 +181,7 @@ export default (jessibuca) => {
 
     jessibuca._handleVisibilityChange = () => {
         jessibuca._opt.debug && console.log(document.visibilityState, jessibuca._isPlayingBeforePageHidden);
-        // show
-        if ("visible" === document.visibilityState) {
-            if (jessibuca._isPlayingBeforePageHidden) {
-                jessibuca._play();
-            }
-        } else {
-            jessibuca._isPlayingBeforePageHidden = jessibuca.playing;
-            // hidden
-            if (jessibuca.playing) {
-                jessibuca._pause();
-            }
-        }
+        jessibuca._decoderWorker.postMessage({cmd: POST_MESSAGE.pushingData, value: document.visibilityState === 'visible'})
     }
 
     jessibuca._handleWakeLock = () => {

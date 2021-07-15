@@ -110,6 +110,7 @@ Module.postRun = function () {
     }
     var decoder = {
         opt: {},
+        pushingData: true,
         initAudioPlanar: function (channels, samplerate) {
             postMessage({ cmd: "initAudioPlanar", samplerate: samplerate, channels: channels })
             var buffer = []
@@ -266,7 +267,9 @@ Module.postRun = function () {
                                 input.return(null)
                             } else {
                                 speedSampler.addBytes(value.byteLength);
-                                dispatch(value)
+                                if (decoder.pushingData) {
+                                    dispatch(value)
+                                }
                                 fetchNext()
                             }
                         }).catch(function (e) {
@@ -401,6 +404,9 @@ Module.postRun = function () {
             case "init":
                 decoder.opt = JSON.parse(msg.opt)
                 audioDecoder.sample_rate = msg.sampleRate
+                break
+            case "pushingData":
+                decoder.pushingData = msg.value
                 break
             case "getProp":
                 postMessage({ cmd: "getProp", value: decoder[msg.prop] })

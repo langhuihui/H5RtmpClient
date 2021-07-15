@@ -38,7 +38,8 @@ export const POST_MESSAGE = {
     close: "close",
     play: 'play',
     setVideoBuffer: 'setVideoBuffer',
-    init: 'init'
+    init: 'init',
+    pushingData: 'pushingData'
 }
 
 //
